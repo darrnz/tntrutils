@@ -1,4 +1,4 @@
-# rtntools
+# tntrtools
 
 *Custom R functions for interacting with TNT*
 
