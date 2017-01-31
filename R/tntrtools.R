@@ -29,8 +29,8 @@ writecont.tnt <- function(mat, file, dec = 3) {
 # Write 2D or 3D landmark data to a file in TNT format. `A` can be either an
 # array with landmarks from a single configuration or a list of arrays of
 # different configurations. Some species may not be included in all the arrays.
-# If that happens, `allow_missing = TRUE` will drop those species from the
-# entire dataset. `allow_missing = FALSE` will keep all the species and fill in
+# If that happens, `allow_missing = FALSE` will drop those species from the
+# entire dataset. `allow_missing = TRUE` will keep all the species and fill in
 # with question marks as necessary. A file name to write out a TNT log can be
 # given with the `log` parameter. writeland.tnt will also add an ECHO command.
 # `dec` is used to round the values
