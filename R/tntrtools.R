@@ -10,6 +10,7 @@ writecont.tnt <- function(mat, file, dec = 3) {
   tnt_comment <- paste0("\'TNT file generated with the R function `writecont.tnt` on ", date(), ".\'")
   writeLines(tnt_comment, out_file)
   writeLines(paste(n_char, n_tip), out_file)
+  writeLines("&[continuous]", out_file)
   tip_names <- rownames(mat)
   tip_names <- gsub(" ", "_", tip_names)
   rownames(mat) <- tip_names
