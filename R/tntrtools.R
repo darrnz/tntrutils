@@ -26,16 +26,8 @@ writecont.tnt <- function(mat, file, dec = 3) {
   close.connection(out_file)
 }
 
-# Write 2D or 3D landmark data to a file in TNT format. `A` can be either an
-# array with landmarks from a single configuration or a list of arrays of
-# different configurations. Some species may not be included in all the arrays.
-# If that happens, `allow_missing = FALSE` will drop those species from the
-# entire dataset. `allow_missing = TRUE` will keep all the species and fill in
-# with question marks as necessary. A file name to write out a TNT log can be
-# given with the `log` parameter. writeland.tnt will also add an ECHO command.
-# `dec` is used to round the values
-writeland.tnt <- function (A, file, dec = 3, allow_missing = FALSE, log = NULL) {
-  .writearray.tnt <- function (A, n, global_names, file) {
+# Auxilliary function for writeland.tnt
+.writearray.tnt <- function (A, n, global_names, file) {
   # Write an array of landmark data in TNT format to an open file connection.
   A <- round(A, dec)
   k <- dim(A)[2] # Number of dimensions
@@ -61,8 +53,17 @@ writeland.tnt <- function (A, file, dec = 3, allow_missing = FALSE, log = NULL) 
       }
     writeLines(this_line, file)
   }
-  }
+}
 
+# Write 2D or 3D landmark data to a file in TNT format. `A` can be either an
+# array with landmarks from a single configuration or a list of arrays of
+# different configurations. Some species may not be included in all the arrays.
+# If that happens, `allow_missing = FALSE` will drop those species from the
+# entire dataset. `allow_missing = TRUE` will keep all the species and fill in
+# with question marks as necessary. A file name to write out a TNT log can be
+# given with the `log` parameter. writeland.tnt will also add an ECHO command.
+# `dec` is used to round the values
+writeland.tnt <- function (A, file, dec = 3, allow_missing = FALSE, log = NULL) {
   file <- file(file, "w")
   if (! is.null(log)) writeLines(paste0("LOG ", log, ";\nECHO =;"), file)
   writeLines("NSTATES CONT;", file)
@@ -108,7 +109,7 @@ writeland.tnt <- function (A, file, dec = 3, allow_missing = FALSE, log = NULL) 
 # Write a phylo or multiPhylo object in the TNT parenthetical tree format. TNT
 # cannot read trees without a matrix in memory, so this function offers the
 # option to create a dummy matrix. Trees can have diffent tip labels.
-write.tree.tnt <- function(tr, out_file, dummy = TRUE) {
+write.tree.tnt <- function(tr, out_file, dummy = FALSE) {
   require(ape)
   out_file <- file(out_file, "w")
   if (class(tr) == "multiPhylo") {
